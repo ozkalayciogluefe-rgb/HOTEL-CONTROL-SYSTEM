@@ -1,4 +1,4 @@
-#OTEL OTOMASYON SİSTEMİ.
+#OTEL OTOMASYON SİSTEMİ..
 class text:
     def __init__(self,folderName):
         self.folderName = folderName
