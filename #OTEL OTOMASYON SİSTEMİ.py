@@ -18,18 +18,15 @@ class text:
         f.close()
         for i in fp:
             if checkOut in i:
-                fp.remove(i)               
+                fp.remove(i)
         for x in fp:
             f = open(self.folderName,"a")        
-            deleteing = f.write(str(x) + '\n')
-        return deleteing
+            f.write(str(x) + '\n')
 
     def lenPersons(self,lp):
         f = open(self.folderName,"r")
         lp = f.readlines()
         return lp
-
-  
 
 twoPersonRoom = [121,122,123,124,125,126,127,128,129]
 threePersonRoom = [131,132,133,134,135,136,137,138,139]
@@ -39,7 +36,6 @@ fp = list(filePerson.read().splitlines())
 printing = filePerson.read()
 holder = 0
 
- 
 while True:
 
     print("""
@@ -64,7 +60,7 @@ if selection == 1:
 
     print("kac kisilik oda lazım 2 mi 3 mu ")
 
-    while True:
+    while True: 
         try:
             personSelect = int(input())
 
@@ -106,16 +102,19 @@ elif selection == 3:
     print(filePerson.read())
 
 elif selection == 4:
+    holder = 0
     for i in fp:
         counter = 0
-        for x in i:
-            if x == ",":
-                counter += 1
-        holder = holder + counter + 1
+        if i != '':
+            for x in i:
+                if x == ",":
+                    counter += 1
+            holder += counter + 1
     print(holder) 
 
 
 
 
     
+               
                
