@@ -13,26 +13,21 @@ class text:
         writeing = f.write(str(list_))
         return writeing
 
-    def delete(self,fp,checkOut):
+    def delete(self,filePersonsList,checkOut):
         f = open(self.folderName,"w")
         f.close()
-        for i in fp:
+        for i in filePersonsList:
             if checkOut in i:
-                fp.remove(i)
-        for x in fp:
+                filePersonsList.remove(i)
+        for x in filePersonsList:
             f = open(self.folderName,"a")        
             f.write(str(x) + '\n')
-
-    def lenPersons(self,lp):
-        f = open(self.folderName,"r")
-        lp = f.readlines()
-        return lp
 
 twoPersonRoom = [121,122,123,124,125,126,127,128,129]
 threePersonRoom = [131,132,133,134,135,136,137,138,139]
 filePerson = text("persons.txt")
 ctrlFPerson = filePerson.read().split("/")
-fp = list(filePerson.read().splitlines())
+filePersonsList = list(filePerson.read().splitlines())
 printing = filePerson.read()
 holder = 0
 
@@ -96,14 +91,14 @@ if selection == 1:
 
 elif selection == 2:
     checkOut = input("lutfen cıkıs yapacagınız oda numarasını giriniz : ")
-    filePerson.delete(fp,checkOut)
+    filePerson.delete(filePersonsList,checkOut)
 
 elif selection == 3:
     print(filePerson.read())
 
 elif selection == 4:
     holder = 0
-    for i in fp:
+    for i in filePersonsList:
         counter = 0
         if i != '':
             for x in i:
