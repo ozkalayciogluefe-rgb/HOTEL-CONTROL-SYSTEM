@@ -1,0 +1,63 @@
+{
+    "rooms": [
+        {
+            "number": 121,
+            "person1": "efe",
+            "person2": "ali"
+        },
+        {
+            "number": 122,
+            "person1": "e",
+            "person2": "h"
+        },
+        {
+            "number": 123,
+            "person1": "2",
+            "person2": "2"
+        },
+        {
+            "number": 124,
+            "person1": "efe",
+            "person2": "a"
+        },
+        {
+            "number": 125,
+            "person1": "efe",
+            "person2": "ali"
+        },
+        {
+            "number": 131,
+            "person1": "",
+            "person2": "",
+            "person3": ""
+        },
+        {
+            "number": 132,
+            "person1": "",
+            "person2": "",
+            "person3": ""
+        },
+        {
+            "number": 126,
+            "person1": "",
+            "person2": "",
+            "person3": ""
+        },
+        {
+            "number": 133,
+            "person1": "",
+            "person2": "",
+            "person3": ""
+        },
+        {
+            "number": 127,
+            "person1": "asd1",
+            "person2": "asd2"
+        },
+        {
+            "number": 128,
+            "person1": "asd3",
+            "person2": "asd4"
+        }
+    ]
+}

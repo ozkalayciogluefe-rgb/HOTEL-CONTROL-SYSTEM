@@ -1,35 +1,57 @@
 #OTEL OTOMASYON SİSTEMİ..
+
+
+import json
 class text:
     def __init__(self,folderName):
         self.folderName = folderName
 
     def read(self):
-       f = open(self.folderName , "r")  
-       init = f.read()
-       return init
-
+        f = open(self.folderName , "r")  
+        init = json.load(f)
+        return init
+       
     def write(self ,list_):
-        f = open(self.folderName,"a")
-        writeing = f.write(str(list_))
-        return writeing
-
-    def delete(self,filePersonsList,checkOut):
         f = open(self.folderName,"w")
+        json.dump(list_,f,indent = 4)
         f.close()
-        for i in filePersonsList:
-            if checkOut in i:
-                filePersonsList.remove(i)
-        for x in filePersonsList:
-            f = open(self.folderName,"a")        
-            f.write(str(x) + '\n')
 
-twoPersonRoom = [121,122,123,124,125,126,127,128,129]
-threePersonRoom = [131,132,133,134,135,136,137,138,139]
-filePerson = text("persons.txt")
-ctrlFPerson = filePerson.read().split("/")
-filePersonsList = list(filePerson.read().splitlines())
-printing = filePerson.read()
-holder = 0
+# roomCapacity
+def personSelection(howPersonRoom,personSelect):
+    try:
+        for i in range(len(howPersonRoom)):
+            if howPersonRoom[i] not in roomNumbersList:
+                name1 = input("1. kisi ad soyad giriniz : ")
+                name2 = input("2. kisi ad soyad giriniz : ")
+
+                object = {
+                    "number" : howPersonRoom[i],
+                    "person1" : name1,
+                    "person2" : name2
+                }
+
+                if personSelect == 3:
+                    object["person3"] = input("3. kisi ad soyad giriniz : ")
+                
+                
+                
+                ctrlFPerson["rooms"].append(object)
+                filePerson.write(ctrlFPerson)
+                break
+    except IndexError:
+        print(f"{personSelect} kisilik odalar dolu")   
+
+
+
+filePerson = text("./hotell.json")
+rooms= text("./rooms.json")
+twoPersonRoom = rooms.read()["twoPersonsRoom"]
+threePersonRoom = rooms.read()["threePersonsRoom"]
+ctrlFPerson = filePerson.read()
+roomNumbersList = []
+
+for i in ctrlFPerson["rooms"]:
+    roomNumbersList.append(i["number"])
 
 while True:
 
@@ -51,6 +73,7 @@ while True:
     except ValueError:
         print("lutfen gecerli deger giriniz")        
 
+
 if selection == 1:
 
     print("kac kisilik oda lazım 2 mi 3 mu ")
@@ -68,48 +91,37 @@ if selection == 1:
             print("gecerli deger giriniz")
 
     if personSelect == 2:
-        try:
-            for i in range(0,10):
-                if str(twoPersonRoom[i]) not in ctrlFPerson:
-                    filePerson.write("/" + str(twoPersonRoom[i]) + "/")
-                    name = input("lutfen ad soyad giriniz ")
-                    filePerson.write(name + "/" + '\n')
-                    break
-        except IndexError:
-            print("iki kisilik odalar dolu")
-
-    if personSelect == 3:
-        try:
-            for i in range(0,10):
-                if str(threePersonRoom[i]) not in ctrlFPerson:
-                    filePerson.write("/" + str(threePersonRoom[i]) + "/")
-                    name = input("lutfen ad soyad giriniz ")
-                    filePerson.write(name + "/" + '\n')
-                    break
-        except IndexError:
-            print("3 kisilik odalar dolu")   
-
+        personSelection(twoPersonRoom,personSelect)
+        
+    elif personSelect == 3:
+        personSelection(threePersonRoom,personSelect)
+        
 elif selection == 2:
-    checkOut = input("lutfen cıkıs yapacagınız oda numarasını giriniz : ")
-    filePerson.delete(filePersonsList,checkOut)
+    checkOut = int(input("lutfen cıkıs yapacagınız oda numarasını giriniz : "))
+    for room in ctrlFPerson["rooms"]:
+        if room["number"] == checkOut:
+            ctrlFPerson["rooms"].remove(room)
+            break  
+    filePerson.write(ctrlFPerson)     
 
 elif selection == 3:
-    print(filePerson.read())
+    if ctrlFPerson["rooms"] != []:
+        for room in ctrlFPerson["rooms"]:
+            roomNumber = room["number"]
+            guests = []
+
+            for person in room:
+                if room[person] != "" and person != "number":
+                    guests.append(room[person])
+            print(f"{roomNumber} numaralı odadaki musteriler {guests}")        
+    else:
+        print("dolu oda yok")
 
 elif selection == 4:
     holder = 0
-    for i in filePersonsList:
-        counter = 0
-        if i != '':
-            for x in i:
-                if x == ",":
-                    counter += 1
-            holder += counter + 1
-    print(holder) 
-
-
-
-
-    
-               
+    for room in ctrlFPerson["rooms"]:
+        for person in room:
+            if room[person] != "" and person != "number":
+                holder += 1
+    print(f"Oteldeki musteri sayisi {holder}")
                
