@@ -1,6 +1,6 @@
 #OTEL OTOMASYON SİSTEMİ..
-
-
+import databaseControlModule as dbControl
+conn = dbControl.DatabaseControl()
 import json
 class text:
     def __init__(self,folderName):
@@ -24,34 +24,29 @@ def personSelection(howPersonRoom,personSelect):
                 name1 = input("1. kisi ad soyad giriniz : ")
                 name2 = input("2. kisi ad soyad giriniz : ")
 
-                object = {
-                    "number" : howPersonRoom[i],
-                    "person1" : name1,
-                    "person2" : name2
-                }
+                object = [howPersonRoom[i],name1,name2,"null"]
 
                 if personSelect == 3:
-                    object["person3"] = input("3. kisi ad soyad giriniz : ")
+                    object[3] = input("3.kisi ad soyad giriniz : ")
+
+
+                conn.customerRegistration(object)
+                print(f"{howPersonRoom[i]} numaralı oda kaydınız basarıyla yapıldı")
                 
                 
-                
-                ctrlFPerson["rooms"].append(object)
-                filePerson.write(ctrlFPerson)
                 break
     except IndexError:
         print(f"{personSelect} kisilik odalar dolu")   
 
 
 
-filePerson = text("./hotell.json")
+
 rooms= text("./rooms.json")
 twoPersonRoom = rooms.read()["twoPersonsRoom"]
 threePersonRoom = rooms.read()["threePersonsRoom"]
-ctrlFPerson = filePerson.read()
-roomNumbersList = []
 
-for i in ctrlFPerson["rooms"]:
-    roomNumbersList.append(i["number"])
+
+roomNumbersList = conn.getOccupiedRooms()
 
 while True:
 
@@ -97,31 +92,22 @@ if selection == 1:
         personSelection(threePersonRoom,personSelect)
         
 elif selection == 2:
-    checkOut = int(input("lutfen cıkıs yapacagınız oda numarasını giriniz : "))
-    for room in ctrlFPerson["rooms"]:
-        if room["number"] == checkOut:
-            ctrlFPerson["rooms"].remove(room)
-            break  
-    filePerson.write(ctrlFPerson)     
+    checkOut = input("lutfen cıkıs yapacagınız oda numarasını giriniz : ")
+    conn.customerCheckOut(checkOut)
 
 elif selection == 3:
-    if ctrlFPerson["rooms"] != []:
-        for room in ctrlFPerson["rooms"]:
-            roomNumber = room["number"]
-            guests = []
-
-            for person in room:
-                if room[person] != "" and person != "number":
-                    guests.append(room[person])
-            print(f"{roomNumber} numaralı odadaki musteriler {guests}")        
+    if roomNumbersList != []:
+        roomNumbersList.sort()
+        for i in roomNumbersList:
+            print(f"{i} numaralı oda dolu")
     else:
         print("dolu oda yok")
 
 elif selection == 4:
     holder = 0
-    for room in ctrlFPerson["rooms"]:
-        for person in room:
-            if room[person] != "" and person != "number":
-                holder += 1
-    print(f"Oteldeki musteri sayisi {holder}")
+    cursorTupple = conn.getCustomerCount()
+    print(f"anlık oteldeki musteri sayısı : {cursorTupple}")
+    
+
+
                
